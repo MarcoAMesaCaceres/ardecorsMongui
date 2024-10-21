@@ -12,10 +12,9 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 
 from pathlib import Path
 import os
-from django.utils.translation import gettext_lazy as _
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
@@ -25,6 +24,7 @@ SECRET_KEY = 'django-insecure-z0(2b5x826v@qm++zox-8djy8x3d4de9fjl=%&n1t8s1c42kta
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -48,11 +48,11 @@ INSTALLED_APPS = [
     'ayuda',
     'clientes', 
     'insumos' 
+
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # Añadido para WhiteNoise
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,7 +67,8 @@ ROOT_URLCONF = 'sistema.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [ 
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -75,26 +76,42 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
             ],
         },
     },
 ]
 
+
+
 WSGI_APPLICATION = 'sistema.wsgi.application'
 
+
 # Database
+# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ardecorsSport',
-        'USER': 'ardecorsSport',
+        'NAME': 'ardecors',
+        'USER': 'ardecors',
         'PASSWORD': 'ardecors_2024',
         'HOST': 'localhost',
         'PORT': '3306',
+        
     }
 }
 
+
 # Password validation
+# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
+# Cerca del principio del archivo, añade:
+from django.utils.translation import gettext_lazy as _
+
+# Cambia el LANGUAGE_CODE a español:
+LANGUAGE_CODE = 'es'
+
+# Añade o modifica la siguiente configuración:
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -121,40 +138,70 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 CUSTOM_TRANSLATIONS = {
-    'Username': 'Usuario',
-    'Password': 'Contraseña',
-    'Email': 'Correo electrónico',
-    'Password confirmation': 'Confirmar contraseña',
+    ('Username'): 'Usuario',
+    ('Password'): 'Contraseña',
+    ('Email'): 'Correo electrónico',
+    ('Password'): 'Contraseña',
+    ('Password confirmation'): 'Confirmar contraseña',
 }
 
 # Internationalization
-LANGUAGE_CODE = 'es'
+# https://docs.djangoproject.com/en/4.1/topics/i18n/
+
+
+
 TIME_ZONE = 'America/Bogota'
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/4.1/howto/static-files/
+import os
+
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Configuración de WhiteNoise
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Asegúrate de que todas las rutas existan en tu sistema de archivos
+STATICFILES_DIRS = [
+    
+    BASE_DIR / 'libreria' / 'static',
+    BASE_DIR / 'articles' / 'static',
+    BASE_DIR / 'tareas' / 'static',
+    BASE_DIR / 'detalles_compra' / 'static',
+    BASE_DIR / 'detalles_venta' / 'static',
+    BASE_DIR / 'compras' / 'static',
+    BASE_DIR / 'proveedores' / 'static',
+    BASE_DIR / 'usuarios' / 'static',
+    BASE_DIR / 'ventas' / 'static',
+    BASE_DIR / 'ayuda' / 'static',
+    BASE_DIR / 'clientes' / 'static',
+    BASE_DIR / 'insumos' / 'static',
+    
+]
 
-# Media files
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 
 # Default primary key field type
+# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
+
+
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Authentication
-LOGIN_URL = 'login'
-LOGIN_REDIRECT_URL = 'admin_dashboard'
+LOGIN_URL = 'login'  # Nombre de URL para la página de inicio de sesión
+LOGIN_REDIRECT_URL = 'admin_dashboard'  # Nombre de URL para el panel de administración
 
-# Email
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'restablecercontrasenaardecorss@gmail.com'
 EMAIL_HOST_PASSWORD = 'kvja wwug bqup rmsy'
+
+TIME_ZONE = 'America/Bogota'
+USE_TZ = True
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
