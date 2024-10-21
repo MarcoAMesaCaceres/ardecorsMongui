@@ -36,4 +36,11 @@ urlpatterns = [
     
     # Añade esta línea para redirigir la raíz a la página principal de 'libreria'
     path('', RedirectView.as_view(url='/libreria/', permanent=True)),
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+
+# Añade esta condición para servir archivos estáticos en desarrollo
+if settings.DEBUG:
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+# Configuración para archivos de medios
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
