@@ -94,8 +94,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'ardecorsmongui',
-        'USER': 'rdecorsmongui',
-        'PASSWORD': 'ardecors_2024',
+        'USER': 'ardecorsmongui',
+        'PASSWORD': '1234',
         'HOST': 'localhost',
         'PORT': '3306',
         
