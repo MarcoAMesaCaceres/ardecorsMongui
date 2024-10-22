@@ -1,0 +1,102 @@
+{% extends 'base_proveedor.html' %}
+{% load static %}
+{% block title %}Lista de Ventas{% endblock %}
+<link rel="icon" href="{% static 'img/logoardecors.png' %}">
+{% block content %}
+{% include 'navbar.html' %}
+<div class="breadcrumb">
+    <a href="{% url 'admin_dashboard' %}" data-tooltip="Ver Panel de Administración"> PANEL DE ADMINISTRACIÓN </a> &gt; 
+    LISTA DE PROVEEDORES 
+    <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+        .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+</div>
+<div class="home-section">
+    <nav aria-label="breadcrumb">
+    
+    </nav>
+
+    <h1 class="mb-4">Lista de Proveedores</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <a href="{% url 'crear_proveedor' %}" class="btn btn-primary mb-3">Crear Nuevo Proveedor</a>
+
+    <form method="GET" class="mb-3">
+        <div class="row">
+            <div class="col">
+                <input type="number" name="id" class="form-control" placeholder="ID" value="{{ request.GET.id }}" min="0">
+            </div>
+            <div class="col">
+                <input type="text" name="nombre" class="form-control" placeholder="Nombre" value="{{ request.GET.nombre }}">
+            </div>
+            <div class="col">
+                <input type="text" name="telefono" class="form-control" placeholder="Teléfono" value="{{ request.GET.telefono }}">
+            </div>
+            <div class="col">
+                <input type="text" name="email" class="form-control" placeholder="Email" value="{{ request.GET.email }}">
+            </div>
+            <div class="col">
+                <input type="text" name="direccion" class="form-control" placeholder="Dirección" value="{{ request.GET.direccion }}">
+            </div>
+            <div class="col-auto">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+        </div>
+    </form>
+
+    <table id="elementosTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Teléfono</th>
+                <th>Email</th>
+                <th>Direccion</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for proveedor in proveedores %}
+                <tr>
+                    <td>{{ proveedor.id }}</td>
+                    <td>{{ proveedor.nombre }}</td>
+                    <td>{{ proveedor.telefono|default_if_none:"-" }}</td>
+                    <td>{{ proveedor.email|default_if_none:"-" }}</td>
+                    <td>{{ proveedor.direccion }}</td>
+                    <td>
+                        <a href="{% url 'editar_proveedor' proveedor.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                        <a href="{% url 'eliminar_proveedor' proveedor.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No hay proveedores registrados.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="mt-3">
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-primary mb-3">Volver al Panel de Administración</a>
+        
+    </div>
+</div>
+
+
+{% block extra_js %}
+    <script>
+        function Proveedores() {
+            window.print();
+        }
+    </script>
+</div>
+    {% endblock %}
+
+{% endblock %}

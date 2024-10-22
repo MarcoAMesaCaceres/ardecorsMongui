@@ -1,0 +1,101 @@
+{% extends 'base_venta.html' %}
+{% load static %}
+{% block title %}Lista de Ventas{% endblock %}
+<link rel="icon" href="{% static 'img/logoardecors.png' %}">
+{% block content %}
+{% include 'navbar.html' %}
+<head>
+    <div class="breadcrumb">
+        <a href="{% url 'admin_dashboard' %}" data-tooltip="Ver Panel de Administración"> PANEL DE ADMINISTRACIÓN </a> &gt; 
+        LISTA DE VENTAS 
+        <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+            .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+    </div>
+    <!-- CSS de DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+
+    <!-- JS de DataTables -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+    <script src="{% static 'js/datatable.js' %}?v2.10"></script>
+
+</head>
+<div class="home-section">
+    <div class="container mt-4">
+        <h1 class="mb-4">Lista de Ventas</h1>
+
+        <div class="mb-3"></div>
+            <a href="{% url 'crear_venta' %}" class="btn btn-primary">Crear Nueva Venta</a>
+        </div>
+        
+        <!-- Formulario de búsqueda -->
+        <form method="get" class="mb-4">
+            <div class="row">
+                <div class="col">
+                    <input type="number" name="id" class="form-control" placeholder="Buscar por ID" value="{{ request.GET.id }}">
+                </div>
+                <div class="col">
+                    <input type="date" name="fecha" class="form-control" placeholder="Buscar por Fecha" value="{{ request.GET.fecha }}">
+                </div>
+                <div class="col">
+                    <input type="text" name="cliente" class="form-control" placeholder="Buscar por Cliente" value="{{ request.GET.cliente }}">
+                </div>
+                <div class="col">
+                    <input type="text" name="articulo" class="form-control" placeholder="Buscar por Artículo" value="{{ request.GET.articulo }}">
+                </div>
+                <div class="col">
+                    <button class="btn btn-primary" type="submit">Buscar</button>
+                </div>
+            </div>
+        </form>
+        
+        {% if ventas %}
+            <table id="elementosTable"class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Artículos</th>
+
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for venta in ventas %}
+                        <tr>
+                            <td>{{ venta.id }}</td>
+                            <td>{{ venta.fecha|date:"d/m/Y h:i A" }}</td>
+                            <td>{{ venta.cliente.nombre }}</td>
+                            <td>
+                                <ul>
+                                {% for detalle in venta.detalles.all %}
+                                    <li>{{ detalle.articulo.nombre }}</li>
+                                {% endfor %}
+                                </ul>
+                            </td>
+                            <td>
+                                <a href="{% url 'editar_venta' venta.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                                <a href="{% url 'eliminar_venta' venta.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                                <a href="{% url 'lista_detalles_venta' venta.id %}" class="btn btn-sm btn-info">Ver Detalles</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay ventas registradas.</p>
+        {% endif %}
+
+        <div class="mt-3">
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary">Volver al Panel de Administración</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,114 @@
+{% extends 'base_clientes.html' %}
+{% load static %}
+
+{% block title %}Lista de clientes{% endblock %}
+
+
+{% block content %}
+<link rel="icon" href="{% static 'img/logoardecors.png' %}">
+<link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+
+{% include 'navbar.html' %}
+<div class="breadcrumb">
+    <a href="{% url 'admin_dashboard' %}" data-tooltip="Ver Panel de Administración"> PANEL DE ADMINISTRACIÓN </a> &gt; 
+    LISTA DE CLIENTES
+    <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+        .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+</div>
+
+<div class="home-section">
+    <nav aria-label="breadcrumb">
+    
+    </nav>
+
+    <h1 class="mb-4">Lista de clientes</h1>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <a href="{% url 'crear_clientes' %}" class="btn btn-primary mb-3">Crear Nuevos clientes</a>
+
+    <!-- Formulario de búsqueda -->
+    <form method="get" class="mb-4">
+        <div class="row">
+            <div class="col">
+                <input type="number" name="id" class="form-control" placeholder="Buscar por ID" value="{{ request.GET.id }}">
+            </div>
+            <div class="col">
+                <input type="text" name="nombre" class="form-control" placeholder="Buscar por Nombre" value="{{ request.GET.nombre }}">
+            </div>
+            <div class="col">
+                <input type="text" name="telefono" class="form-control" placeholder="Buscar por Teléfono" value="{{ request.GET.telefono }}">
+            </div>
+            <div class="col">
+                <input type="text" name="email" class="form-control" placeholder="Buscar por Email" value="{{ request.GET.email }}">
+            </div>
+            <div class="col">
+                <input type="text" name="direccion" class="form-control" placeholder="Buscar por Dirección" value="{{ request.GET.direccion }}">
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+        </div>
+    </form> 
+
+    <table id="elementosTable" class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Documento</th>
+            <th>Teléfono</th>
+            <th>Email</th>
+            <th>Dirección</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for clientes in clientes %}
+        <tr>
+            <td>{{ clientes.id }}</td>
+            <td>{{ clientes.nombre }}</td>
+            <td>{{ clientes.documento }}</td>
+            <td>{{ clientes.telefono }}</td>
+            <td>{{ clientes.email }}</td>
+            <td>{{ clientes.direccion }}</td>
+            <td>
+                <div class="btn-group" role="group">
+                    <a href="{% url 'editar_clientes' clientes.id %}" class="btn btn-sm btn-outline-secondary me-2">
+                        Editar
+                    </a>
+                    <a href="{% url 'eliminar_clientes' clientes.id %}" class="btn btn-sm btn-outline-danger">
+                        Eliminar
+                    </a>
+                </div>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="6" class="text-center">No hay clientes registrados.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+    <div class="mt-3">
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-primary mb-3">Volver al Panel de Administración</a>
+        
+    </div>
+</div>
+
+
+{% block extra_js %}
+    
+</div>
+    {% endblock %}
+
+{% endblock %}

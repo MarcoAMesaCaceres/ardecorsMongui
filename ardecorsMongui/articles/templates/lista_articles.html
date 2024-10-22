@@ -1,0 +1,91 @@
+{% extends 'base_articles.html' %}
+{% load static %}
+
+{% block title %}Lista de Artículos{% endblock %}
+
+{% block content %}
+<div class="wrapper">
+    {% include 'navbar.html' %}
+    <div class="breadcrumb">
+        <a href="{% url 'admin_dashboard' %}" data-tooltip="Ver Panel de Administración"> PANEL DE ADMINISTRACIÓN </a> &gt; 
+        LISTA DE PRODUCTOS
+        <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+            .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+    </div>
+
+    <div class="home-section">
+        <div class="content">
+            <h1>Lista de Artículos</h1>
+
+            <!-- Formulario de búsqueda -->
+            <form method="get" class="mb-4">
+                <div class="row">
+                    <div class="col">
+                        <input type="number" name="id" class="form-control" placeholder="Buscar por ID" value="{{ request.GET.id }}">
+                    </div>
+                    <div class="col">
+                        <input type="text" name="nombre" class="form-control" placeholder="Buscar por Nombre" value="{{ request.GET.nombre }}">
+                    </div>
+                    <div class="col">
+                        <input type="text" name="descripcion" class="form-control" placeholder="Buscar por Descripción" value="{{ request.GET.descripcion }}">
+                    </div>
+                    <div class="col">
+                        <input type="number" name="precio" class="form-control" placeholder="Buscar por Precio" value="{{ request.GET.precio }}">
+                    </div>
+                    <div class="col">
+                        <input type="number" name="stock" class="form-control" placeholder="Buscar por Stock" value="{{ request.GET.stock }}">
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" type="submit">Buscar</button>
+                    </div>
+                </div>
+            </form>
+
+            <a href="{% url 'crear_articles' %}" class="btn btn-primary mb-3">Crear Nuevo Artículo</a>
+
+            <table id="elementosTable" class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Imagen</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for article in articles %}
+                    <tr>
+                        <td>{{ article.id}}</td>
+                        <td>
+                            {% if article.imagen %}
+                                <img src="{{ article.imagen.url }}" alt="{{ article.nombre }}" style="width: 50px; height: 50px; object-fit: cover;">
+                            {% else %}
+                                <img src="{% static 'img/placeholder.png' %}" alt="Imagen no disponible" style="width: 50px; height: 50px; object-fit: cover;">
+                            {% endif %}
+                        </td>
+
+                        <td>{{ article.nombre }}</td>
+                        <td>{{ article.descripcion|truncatewords:10 }}</td>
+                        <td>${{ article.precio }}</td>
+                        <td>{{ article.stock }}</td>
+                        <td>
+                            <a href="{% url 'editar_articles' article.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                            <a href="{% url 'eliminar_articles' article.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6">No hay artículos disponibles.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <a href="{% url 'admin_dashboard' %}" class="btn btn-primary mb-3">Volver al Panel de Administración</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base_tareas.html' %}
+{% load static %}
+{% block title %}Editar Tarea{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/articles.css' %}">
+    <link rel="icon" href="{% static 'img/logoardecors.png' %}">
+    {% include 'navbar.html' %}
+    <div class="breadcrumb">
+        <a href="{% url 'lista_tareas' %}" data-tooltip="Ver Panel de Administración"> LISTA DE TAREAS </a> &gt; 
+        EDITAR TAREAS 
+        <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+            .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+    </div>
+
+    <div class="home-section">
+<h1>Editar Tarea</h1>
+<form method="post" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="mb-3">
+        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+        {{ field.errors }}
+        {{ field }}
+    </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    <a href="{% url 'lista_tareas' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+ </div>
+</div>
+{% endblock %}

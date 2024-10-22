@@ -1,0 +1,108 @@
+{% load static %}
+
+<link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/backup_databases.css' %}?v1.3">
+    <link rel="icon" href="{% static 'img/logoardecors.png' %}">
+    {% include 'navbar.html' %}
+    <div class="breadcrumb">
+        <img src="{% static 'img/logo.png' %}" alt="Logo" style="height: 40px !important; margin-right: 10px !important;"> <!-- Ajusta la ruta y el tamaño -->
+        <a href="{% url 'admin_dashboard' %}" data-tooltip="Ver Panel de Administración">ARDECORS SPORT</a> 
+        <style>
+            .breadcrumb { 
+                background-color: #0E2C40 !important;  
+                margin-left: auto !important; 
+                margin-right: auto !important; 
+                display: flex !important; 
+                justify-content: center !important; 
+                align-items: center !important; 
+                padding: 10px !important; 
+                width: 100% !important;
+                flex-shrink: 0 !important; 
+                color: white !important; 
+                border-bottom: 5px solid rgb(255, 255, 255) !important; 
+            } 
+            .breadcrumb a { 
+                color: white !important; 
+                text-decoration: none !important; 
+            } 
+            .breadcrumb span {
+                color: rgb(77, 212, 59) !important; 
+            } 
+        </style> 
+    </div>
+    <div class="breadcrumb">
+        <a href="{% url 'admin_dashboard' %}" data-tooltip="Ver Panel de Administración"> PANEL DE ADMINISTRACIÓN </a> &gt; 
+        BASE DE DATOS
+        <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+            .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+    </div>
+
+    <style>
+        body {
+            background-image: url("{% static 'img/ardecors.png' %}");  de tu imagen */
+            background-size: cover; 90% auto; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+        }
+    </style>
+
+<div class="home-section">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <style> head{ background-color: #0E2C40; color: #ffffff; display: flex; justify-content: center; align-items: center; padding: 20px; width: 100%; flex-shrink: 0;} </style>
+
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Respaldo y Restauración de Base de Datos</title>
+    <link href="{% static 'css/backup_database.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    
+</head>
+
+<body>
+    <div class="container">
+        <header class="my-4">
+            <h1 class="text-center">Respaldo y Restauración de Base de Datos</h1>
+        </header>
+        
+        <main>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body text-center">
+                            <a href="{% url 'backup_database' %}" class="btn btn-primary">Hacer Respaldo</a>
+                            {% if message %}
+                                <div class="alert alert-info" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endif %}
+                            <a href="{% url 'admin_dashboard' %}" class="btn btn-secondary btn-lg btn-custom">Volver al Dashboard</a>
+                        <a href="{% url 'backup_list' %}" class="btn btn-primary">lista de Respaldos</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+        
+        
+        
+    </div>
+</div>
+
+    <!--  JS -->
+    <script id="image-data" 
+    data-image-url="{% static 'img/base_de_datos.png' %}"
+    type="application/json"></script>
+    
+    
+    
+    <footer>
+        <h3>© 2024 ARDECORS - Todos los derechos reservados</h3>
+    </footer>
+    
+</body>
+</html>

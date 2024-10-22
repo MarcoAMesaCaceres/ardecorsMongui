@@ -1,0 +1,200 @@
+{% load static %}
+{% include 'navbar.html' %}
+<!DOCTYPE html>
+{% if messages %}
+            <div class="alert alert-info">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+<html lang="es">
+<head>
+    <div class="breadcrumb">
+        <img src="{% static 'img/logo.png' %}" alt="Logo" style="height: 40px !important; margin-right: 10px !important;"> <!-- Ajusta la ruta y el tamaño -->
+        <a href="{% url 'admin_dashboard' %}" data-tooltip="Ver Panel de Administración">ARDECORS SPORT</a> 
+        <style>
+            .breadcrumb { 
+                background-color: #0E2C40 !important;  
+                margin-left: auto !important; 
+                margin-right: auto !important; 
+                display: flex !important; 
+                justify-content: center !important; 
+                align-items: center !important; 
+                padding: 10px !important; 
+                width: 100% !important;
+                flex-shrink: 0 !important; 
+                color: white !important; 
+                border-bottom: 5px solid rgb(255, 255, 255) !important; 
+            } 
+            .breadcrumb a { 
+                color: white !important; 
+                text-decoration: none !important; 
+            } 
+            .breadcrumb span {
+                color: rgb(77, 212, 59) !important; 
+            } 
+        </style> 
+    </div>
+    <div class="breadcrumb">
+        <a href="{% url 'backup_databases' %}" data-tooltip="Ver Panel de Administración"> BASE DE DATOS </a> &gt; 
+        LISTA DE RESPALDOS
+        <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+            .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+    </div>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Respaldos</title>
+        <style> head{ background-color: #0E2C40; color: #ffffff; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0;} </style>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="{% static 'img/logoardecors.png' %}">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.jqueryui.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.6/css/dataTables.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.min.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="my-4">
+            <h1 class="text-center">Lista de Respaldos</h1>
+        </header>
+        
+        <main>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <h2 class="text-center">Archivos de Respaldo</h2>
+                    <table id="elementosTable" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre del archivo</th>
+                                <th>Fecha de creación</th>
+                                <th>Tamaño</th>
+                                <th>Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for backup in page_obj %}
+                                <tr>
+                                    <td>{{ backup.filename }}</td>
+                                    <td>{{ backup.created_at }}</td>
+                                    <td>{{ backup.size }}</td>
+                                    <td>
+                                        <a href="{% url 'download_backup' backup.filename %}" class="btn btn-info btn-sm">Descargar</a>
+                                        <form method="post" action="{% url 'delete_backup' backup.filename %}" class="d-inline">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                        </form>
+                                        <form method="get" action="{% url 'restore_database' %}" class="d-inline">
+                                            <input type="hidden" name="file" value="{{ backup.filename }}">
+                                            <button type="submit" class="btn btn-success btn-sm">Restaurar</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+
+                    <!-- Paginación -->
+                    <div class="mt-4">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination">
+                                {% if page_obj.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% for num in page_obj.paginator.page_range %}
+                                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                                    </li>
+                                {% endfor %}
+                                {% if page_obj.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        
+            <a href="{% url 'backup_databases' %}" class="btn btn-primary">Volver a la Página de Respaldo</a>
+        
+    </div>
+
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/es.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.6/js/dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/3.1.2/js/buttons.print.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+    <script src="https://cdn.datatables.net/moment/2.0.1/dataTables.moment.min.js"></script>
+
+    <script src="{% static 'js/datatable.js' %}?v3.3"></script>
+
+    <footer>
+        <h3>© 2024 ARDECORS - Todos los derechos reservados</h3>
+    </footer>
+    
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content {
+            flex: 1 0 auto;
+        }
+
+        footer {
+            background-color: #0E2C40;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            width: 100%;
+            flex-shrink: 0;
+        }
+        
+        footer h3 {
+            font-size: 0.8vw;
+            margin: 0;
+        }
+
+        footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    /* ... resto de las propiedades ... */
+}
+    </style>
+</body>
+</html>
+

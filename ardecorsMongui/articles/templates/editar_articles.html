@@ -1,0 +1,36 @@
+{% extends 'base_articles.html' %}
+{% load static %}
+{% block title %}Editar Producto{% endblock %}
+{% block content %}
+{% include 'navbar.html' %}
+<div class="breadcrumb">
+    <a href="{% url 'lista_articles' %}" data-tooltip="Ver Panel de Administración"> LISTA DE PRODUCTOS </a> &gt; 
+    EDITAR PRODUCTOS 
+    <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+        .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+</div>
+<div class="home-section">
+    <h1>Editar Productos</h1>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="mb-3">
+            {{ field.label_tag }}
+            {{ field }}
+            {% if field.errors %}
+            <div class="text-danger">
+                {% for error in field.errors %}
+                <small>{{ error }}</small>
+                {% endfor %}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{% url 'lista_articles' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+
+{% endblock %}

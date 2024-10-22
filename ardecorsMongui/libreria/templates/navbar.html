@@ -1,0 +1,177 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'img/logoardecors.png' %}">
+    <link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/accesibilidad.css' %}">
+    <script src="{% static 'js/accesibilidad.js' %}"></script> 
+</head>
+<div class="accesibilidad">
+    <button class="accesibilidad__inicio" id="toggle-inicio">
+        <img src="{% static 'img/icono-acce.png.png' %}" alt="inicio" width="55px">
+    </button>
+    <div class="accesibilidad__buttons hidden" id="toggle-buttons">
+        <div class="accesibilidad__container">
+            <button class="accesibilidad__boton" id="toggle-contrast">
+                <img class="accesibilidad__boton--img" src="{% static 'img/accesibilidad-contraste.svg' %}" alt="contraste" width="55px">
+                <h6 class="accesibilidad__boton--text">Contraste</h6>
+            </button>
+        </div>
+        <div class="accesibilidad__container">
+            <button class="accesibilidad__boton" id="toggle-zoom-in">
+                <img class="accesibilidad__boton--img" src="{% static 'img/accesibilidad-aumento.svg' %}" alt="aumentar" width="55px">
+                <h6 class="accesibilidad__boton--text">Aumentar<br>letra</h6>
+            </button>
+        </div>
+        <div class="accesibilidad__container">
+            <button class="accesibilidad__boton" id="toggle-zoom-out">
+                <img class="accesibilidad__boton--img" src="{% static 'img/accesibilidad-disminuir.svg' %}" alt="disminuir" width="55px">
+                <h6 class="accesibilidad__boton--text">Disminuir<br>letra</h6>
+            </button>
+        </div>
+    </div>
+</div>
+<body>
+    <div class="sidebar">
+        <div class="logo_details">
+            
+            
+
+            
+            <div class="logo_name">Ardecors</div>
+            
+            <i class='bx bx-menu' id="btn"></i>
+            
+        </div>
+        
+        <ul class="nav-list">
+            {% if user.is_authenticated and user.is_superuser or user.userprofile.role == 'admin' %}
+            <li>
+                <a href="{% url 'user_list' %}">
+                    <i class='bx bx-user'></i>
+                    
+                    <span class="link_name">Usuarios</span>
+                </a>
+                <span class="tooltip">Usuarios</span>
+            </li>
+            {%endif%}
+
+            <li>
+                <a href="{% url 'lista_clientes' %}">
+                    <i class='bx bx-male-female'></i>
+                    
+                    <span class="link_name">Clientes</span>
+                </a>
+                <span class="tooltip">Clientes</span>
+            </li>
+
+            <li>
+                <a href="{% url 'lista_articles' %}">
+                    <i class='bx bx-football'></i>
+                    <span class="link_name">Productos </span>
+                </a>
+                <span class="tooltip">Productos </span>
+            </li>
+            <li>
+                <a href="{% url 'lista_ventas' %}">
+                    <i class='bx bx-cart'></i>
+                    <span class="link_name">Ventas</span>
+                </a>
+                <span class="tooltip">Ventas</span>
+            </li>
+            <li>
+                <a href="{% url 'lista_compras' %}">
+                    <i class='bx bx-shopping-bag'></i>
+                    <span class="link_name">Compras</span>
+                </a>
+                <span class="tooltip">Compras</span>
+            </li>
+            <li>
+                <a href="{% url 'lista_proveedores' %}">
+                    <i class='bx bxs-truck'></i>
+                    <span class="link_name">Proveedores</span>
+                </a>
+                <span class="tooltip">Proveedores</span>
+            </li>
+            <li>
+                <a href="{% url 'lista_insumos' %}">
+                    <i class='bx bxs-factory'></i>
+                    <span class="link_name">Insumos</span>
+                </a>
+                <span class="tooltip">Insumos</span>
+            </li>
+            <li>
+                <a href="{% url 'lista_tareas' %}">
+                    <i class='bx bx-task'></i>
+                    <span class="link_name">Tareas</span>
+                </a>
+                <span class="tooltip">Tareas</span>
+            </li>
+            <li>
+                <a href="{% url 'ardecors' %}">
+                    <i class='bx bx-home'></i>
+                    <span class="link_name">Volver al Inicio</span>
+                </a>
+                <span class="tooltip">Volver al Inicio</span>
+            </li>
+            <li>
+                <a href="{% url 'lista_ayuda' %}">
+                    <i class='bx bx-help-circle'></i>
+                    <span class="link_name">Ayuda</span>
+                </a>
+                <span class="tooltip">Ayuda</span>
+            </li>
+            
+            {% if user.is_authenticated and user.is_superuser or user.userprofile.role == 'admin' %}
+            <li>
+                <a href="{% url 'backup_databases' %}">
+                    <i class='bx bx-data'></i>
+                    
+                    <span class="link_name">Repaldos</span>
+                </a>
+                <span class="tooltip">Respaldos</span>
+            </li>
+            
+            {%endif%}
+            <li>
+                <a href="{% url 'login' %}">
+                    <i class='bx bx-log-out' id="log_out"></i>
+                    <span class="link_name">volver al Login</span>
+                </a>
+                <span class="tooltip">Volver al Login</span>
+            </li>
+            <li>
+            <img src="{% static 'img/logoardecors.png' %}" alt="profile image">
+            </li>
+            <li class="profile">
+                
+                <div class="profile_details">
+                    
+                    <div class="profile_content">
+                        
+                        <div class="name">
+                            {{ request.user.username }}
+                        </div>
+                        <div class="designation">
+                            {% if request.user.is_superuser %}
+                            Superuser
+                            {% else %}
+                            {{ request.user.userprofile.get_role_display }}
+                            {% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                    
+                <!-- ... (resto del código sin cambios) ... -->
+            </div>
+    <script src="{% static 'js/admin_dashboard.js' %}"></script>
+    
+
+    

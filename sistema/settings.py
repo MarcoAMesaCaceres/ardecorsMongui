@@ -93,8 +93,8 @@ WSGI_APPLICATION = 'sistema.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'ardecors',
-        'USER': 'ardecors',
+        'NAME': 'ardecorsmongui',
+        'USER': 'rdecorsmongui',
         'PASSWORD': 'ardecors_2024',
         'HOST': 'localhost',
         'PORT': '3306',

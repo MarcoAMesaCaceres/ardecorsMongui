@@ -1,0 +1,42 @@
+{% extends "base_usuario.html" %}
+{% load static %}
+{% block title %}Editar Usuario{% endblock %}
+<link rel="icon" href="{% static 'img/logoardecors.png' %}">
+{% block content %}
+{% include 'navbar.html' %}
+<div class="breadcrumb">
+    <a href="{% url 'user_list' %}" data-tooltip="Ver Panel de Administración"> LISTA DE USUARIOS </a> &gt; 
+    EDITAR USUARIOS  
+    <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+        .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+</div>
+<div class="home-section">
+<div class="container mt-4">
+    <h2>Editar Usuario: {{ user.username }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="form-group user-list">
+                <style>
+                    .user-list { margin-bottom: 15px; padding: 10px; border-bottom: 1px solid #ccc;}
+                </style>
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="alert alert-danger">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+        <a href="{% url 'user_list' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+    <footer> <h3>© 2024 ARDECORS - Todos los derechos reservados</h3> </footer>
+    <style> html, body { height: 100%; margin: 0; padding: 0; } body { display: flex; flex-direction: column; } .content { flex: 1 0 auto; } 
+        footer { background-color: #0E2C40; color: #ffffff; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; }
+        footer h3 { font-size: 0.8vw; margin: 0; } footer { position: fixed; bottom: 0; left: 0; } 
+    </style>
+</div>
+</div>
+{% endblock %}

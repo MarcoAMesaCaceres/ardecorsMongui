@@ -1,0 +1,48 @@
+{% load static %}
+{% include 'navbar.html' %} 
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="{% static 'img/logoardecors.png' %}">
+    <link rel="stylesheet" href="{% static 'css/admin_dasboard.css' %}">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="{% static 'css/accesibilidad.css' %}">
+    
+    <div class="breadcrumb">
+        <img src="{% static 'img/logo.png' %}" alt="Logo" style="height: 40px; margin-right: 10px;"> <!-- Ajusta la ruta y el tamaño -->
+        <a href="{% url 'admin_dashboard' %}" data-tooltip="Ver Panel de Administración">ARDECORS SPORT</a> &gt; 
+        PANEL DE ADMINISTRACIÓN
+        <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%;
+                flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255); } .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span {
+                color: rgb(77, 212, 59); } </style> 
+    </div>
+
+</head>
+<body>
+    
+    <section class="home-section">
+        <div class="container">
+        </br>
+            <div class="text"><h1>Bienvenido a Ardecors, la fábrica de balones<h1></div>
+            </br>
+            <p>Ardecors es una empresa dedicada a la fabricación y distribución de balones de alta calidad. Fundada en 2010, Ardecors se ha convertido en uno de los líderes en la industria de los balones deportivos, ofreciendo una amplia gama de productos para satisfacer las necesidades de nuestros clientes.</p>
+            <p>Nuestra misión es proporcionar productos de calidad, innovadores y a precios competitivos. Nos enorgullecemos de nuestro equipo de expertos en diseño y producción, quienes trabajan incansablemente para garantizar que cada balón que sale de nuestras instalaciones cumpla con los más altos estándares de calidad.</h2>
+            <p>En Ardecors, nos esforzamos por mantener una relación estrecha con nuestros clientes, escuchando sus necesidades y ofreciendo soluciones a medida. Nos enorgullece ser un socio confiable para atletas, clubes deportivos y distribuidores de todo el mundo.</p>
+        </div>
+        <img src="{% static 'img/ardecors.png' %}" alt="Imagen de Ardecors" class="imagen-fondo">
+    </section>
+
+</body>
+    <script src="{% static 'js/admin_dashboard.js' %}"></script>
+
+    <footer>
+        <h3>© 2024 ARDECORS - Todos los derechos reservados</h3>
+    </footer>
+    <style> html, body { height: 100%; margin: 0; padding: 0; } body { display: flex; flex-direction: column; } .content { flex: 1 0 auto; } 
+        footer { background-color: #0E2C40; color: #ffffff; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; }
+        footer h3 { font-size: 0.8vw; margin: 0; } footer { position: fixed; bottom: 0; left: 0; } 
+    </style>
+</html>

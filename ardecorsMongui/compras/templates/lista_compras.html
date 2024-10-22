@@ -1,0 +1,83 @@
+
+{% extends 'base_compras.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/admin_dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'css/articles.css' %}">
+{% block title %}Lista de Compras{% endblock %}
+{% block content %}
+{% include 'navbar.html' %}
+<div class="breadcrumb">
+    <a href="{% url 'admin_dashboard' %}" data-tooltip="Ver Panel de Administración"> PANEL DE ADMINISTRACIÓN </a> &gt; 
+    LISTA DE COMPRAS 
+    <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+        .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+</div>
+<div class="home-section">
+    
+
+    <h1>Lista de Compras</h1>
+
+    <a href="{% url 'crear_compras' %}" class="btn btn-primary mb-3">Crear Nueva Compra</a>
+    
+    <!-- Formulario de búsqueda -->
+    <form method="get" class="mb-4">
+        <div class="row">
+            <div class="col">
+                <input type="number" name="id" class="form-control" placeholder="Buscar por ID" value="{{ request.GET.id }}">
+            </div>
+            <div class="col">
+                <input type="date" name="fecha" class="form-control" placeholder="Buscar por Fecha" value="{{ request.GET.fecha }}">
+            </div>
+            <div class="col">
+                <input type="text" name="proveedor" class="form-control" placeholder="Buscar por Proveedor" value="{{ request.GET.proveedor }}">
+            </div>
+            <div class="col">
+                <input type="text" name="insumos" class="form-control" placeholder="Buscar por insumos" value="{{ request.GET.insumos }}">
+            </div>
+            <div class="col">
+                <button class="btn btn-primary" type="submit">Buscar</button>
+            </div>
+        </div>
+    </form>
+
+    <table id="elementosTable" class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Proveedor</th>
+                <th>Insumos</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for compra in compras %}
+            <tr>
+                <td>{{ compra.id }}</td>
+                <td>{{ compra.fecha|date:"d/m/Y h:i A" }}</td>
+                <td>{{ compra.proveedor }}</td>
+                <td>
+                    {% for detalle in compra.detalles.all %}
+                        {{ detalle.insumo.nombre }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    <a href="{% url 'editar_compras' compra.pk %}" class="btn btn-sm btn-warning">Editar</a>
+                    <a href="{% url 'eliminar_compras' compra.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                    <a href="{% url 'lista_detalles_compra' compra.pk %}" class="btn btn-sm btn-info">Ver Detalles</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No hay compras disponibles.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'admin_dashboard' %}" class="btn btn-primary mb-3">Volver al Panel de Administración</a>
+</div>
+
+{% block extra_js %}
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base_venta.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<head>
+    
+        <div class="breadcrumb">
+            <a href="{% url 'admin_dashboard' %}" data-tooltip="Ver Panel de Administración"> PANEL DE ADMINISTRACIÓN </a> &gt; 
+            DETALLES VENTAS 
+            <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+                .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+        </div>
+    <!-- CSS de DataTables -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+
+    <!-- JS de DataTables -->
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/buttons/2.0.1/js/buttons.print.min.js"></script>
+</head>
+<div class="home-section">
+    <div class="container mt-4">
+        <h1>Detalles de Venta</h1>
+        <h2>Venta #{{ venta.id }}</h2>
+        <p>Cliente: {{ venta.cliente.nombre }}</p>
+        <p>Fecha: {{ venta.fecha|date:"d/m/Y h:i A" }}</p>
+        
+        <table id="elementosTable" class="table">
+            <thead>
+                <tr>
+                    <th>Artículo</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for detalle in detalles %}
+                <tr>
+                    <td>{{ detalle.articulo.nombre }}</td>
+                    <td>{{ detalle.cantidad }}</td>
+                    <td>{{ detalle.precio_unitario }}</td>
+                    <td>{{ detalle.total }}</td>
+                    <td>
+                        <a href="{% url 'editar_detalle_venta' detalle.id %}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                        <a href="{% url 'eliminar_detalle_venta' detalle.id %}" class="btn btn-sm btn-outline-danger">Eliminar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </br>
+        <a href="{% url 'crear_detalle_venta' venta.id %}" class="btn btn-primary">Agregar Detalle</a>
+        <a href="{% url 'lista_ventas' %}" class="btn btn-secondary">Volver a Lista de Ventas</a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends 'base_detalle_compra.html' %}
+{% load static %}
+
+{% block title %}Crear Detalle Compra{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="home-section">
+    <div class="breadcrumb">
+        <a href="{% url 'lista_compras' %}" data-tooltip="Ver lista_compras"> LISTA DE COMPRAS </a> &gt;
+        <a > DETALLES COMPRAS </a>&gt; 
+        CREAR DETALLE DE COMPRA 
+        <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+            .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+    </div>
+
+    <h1 class="mb-4">Crear detalle de compra para Compra #{{ compra.id }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="alert alert-danger">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="{% url 'lista_detalles_compra' compra_id=compra.id %}" class="btn btn-secondary">Volver a la Compra</a>
+    </form>
+</div>
+{% endblock %}

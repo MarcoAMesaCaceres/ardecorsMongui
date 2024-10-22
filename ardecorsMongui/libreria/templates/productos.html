@@ -1,0 +1,113 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+    <link rel="icon" href="{% static 'img/logoardecors.png' %}">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+            integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+            crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <link rel="stylesheet" href="{% static '/css/productos.css' %}?v1.2">
+            <script src="{% static '/js/productos.js' %}" async></script>
+            <link rel="stylesheet" href="{% static 'css/accesibilidad.css' %}">
+            <script src="{% static 'js/accesibilidad.js' %}"></script> 
+        <title>Productos</title>
+    </head>
+    <body>
+        <header>
+            <header>
+                <div class="logo">
+                <img src="{% static 'img/logoardecors.png' %}" alt="logo"> 
+        
+                <div class="button-container">
+                    
+                    <h2>rdecors</h2>
+                    
+        
+                    <button class="button button-yellow"><a
+                        href="{% url 'ardecors' %}">Inicio</a></button>
+                    <button class="button button-green"><a href="{% url 'sobre' %}">Sobre
+                        Nosotros</a></button>
+                    <button class="button button-red"><a
+                        href="{% url 'contacto' %}">Contacto</a></button>
+                    <button class="button button-yellow"><a
+                        href="{% url 'login' %}">Acceso a Empleados</a></button>
+                </div>
+        
+                </nav>
+            </header>
+            <div class="accesibilidad">
+                <button class="accesibilidad__inicio" id="toggle-inicio">
+                    <img src="{% static 'img/icono-acce.png' %}" alt="inicio" width="55px">
+                </button>
+                <div class="accesibilidad__buttons hidden" id="toggle-buttons">
+                    <div class="accesibilidad__container">
+                        <button class="accesibilidad__boton" id="toggle-contrast">
+                            <img class="accesibilidad__boton--img" src="{% static 'img/accesibilidad-contraste.svg' %}" alt="contraste" width="55px">
+                            <h6 class="accesibilidad__boton--text">Contraste</h6>
+                        </button>
+                    </div>
+                    <div class="accesibilidad__container">
+                        <button class="accesibilidad__boton" id="toggle-zoom-in">
+                            <img class="accesibilidad__boton--img" src="{% static 'img/accesibilidad-aumento.svg' %}" alt="aumentar" width="55px">
+                            <h6 class="accesibilidad__boton--text">Aumentar<br>letra</h6>
+                        </button>
+                    </div>
+                    <div class="accesibilidad__container">
+                        <button class="accesibilidad__boton" id="toggle-zoom-out">
+                            <img class="accesibilidad__boton--img" src="{% static 'img/accesibilidad-disminuir.svg' %}" alt="disminuir" width="55px">
+                            <h6 class="accesibilidad__boton--text">Disminuir<br>letra</h6>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="contenedor">
+            <!-- Contenedor de elementos -->
+            <div class="contenedor-items">
+                {% for article in articles %}
+                <div class="item">
+                    <span class="titulo-item">{{ article.nombre }}</span>
+                    <img src="{{ article.imagen.url }}" alt="{{ article.nombre }}" class="img-item">
+                    <span class="precio-item">${{ article.precio }}</span>
+                    <button class="boton-item">Agregar al Carrito</button>
+                </div>
+                {% endfor %}
+            </div>
+                    
+            <!-- Carrito de Compras -->
+            <div class="carrito" id="carrito">
+                <div class="header-carrito">
+                    <h2>Tu Carrito</h2>
+                </div>
+
+                <div class="carrito-items">
+                
+                </div>
+                <div class="carrito-total">
+                    <div class="fila">
+                        <strong>Tu Total</strong>
+                        <span class="carrito-precio-total">
+                           
+                        </span>
+                    </div>
+                    <button class="btn-pagar">Ir al  WhatsApp para continuar la Compra
+                         <i class="fa-solid fa-bag-shopping"></i>
+                         </button>
+                            
+                </div>
+            </div>
+        </section>
+        <div class="paginacion">
+            <button id="prev-page" class="btn-paginacion">Anterior</button>
+            <span id="page-info"></span>
+            <button id="next-page" class="btn-paginacion">Siguiente</button>
+        </div>
+    </body>
+    <footer>
+        <h3>© 2024 ARDECORS - Todos los derechos reservados</h3>
+        </footer>
+</html>

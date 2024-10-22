@@ -1,0 +1,28 @@
+{% extends 'base_detalle_compra.html' %}
+{% load static %}
+
+{% block title %}Editar Detalle Compra{% endblock %}
+
+{% block content %}
+{% include 'navbar.html' %}
+<div class="home-section">
+    <h1 class="mb-4">Editar detalle de compra #{{ detalle.id }}</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+            <div class="mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="alert alert-danger">
+                        {{ field.errors }}
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <a href="{% url 'lista_detalles_compra' compra_id=detalle.compra.id %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

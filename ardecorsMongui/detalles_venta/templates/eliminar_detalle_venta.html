@@ -1,0 +1,18 @@
+{% extends 'base_venta.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'navbar.html' %}
+
+<div class="home-section">
+    <div class="container mt-4">
+        <h1>Eliminar Detalle de Venta</h1>
+        <p>¿Está seguro de que desea eliminar este detalle de venta?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Confirmar Eliminación</button>
+            <a href="{% url 'lista_detalles_venta' detalle.venta.id %}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base_detalle_compra.html' %}
+{% load static %}
+{% block title %}Lista de Detalles de Compra{% endblock %}
+{% block content %}
+{% include 'navbar.html' %}
+<div class="home-section">
+<div class="breadcrumb">
+    <a href="{% url 'admin_dashboard' %}" data-tooltip="Ver Panel de Administración"> PANEL DE ADMINISTRACIÓN </a> &gt; 
+    DETALLES COMPRAS 
+    <style> .breadcrumb { background-color: #0E2C40; margin-left: auto; margin-right: auto; display: flex; justify-content: center; align-items: center; padding: 10px; width: 100%; flex-shrink: 0; padding: 10px; color: white; border-bottom: 5px solid rgb(255, 255, 255);} 
+        .breadcrumb a { color: white; text-decoration: none; } .breadcrumb span { color: rgb(77, 212, 59);} </style> 
+</div>
+
+    
+
+    {% if detalles %}
+    <table id="elementosTable" class="table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Insumo</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detalle in detalles %}
+            <tr>
+                <td>{{ compra.fecha|date:"d/m/Y h:i A" }}</td>
+                <td>{{ detalle.insumo.nombre }}</td>
+                <td>{{ detalle.cantidad }}</td>
+                <td>{{ detalle.precio_unitario }}</td>
+                <td>{{ detalle.total }}</td>
+                <td>
+                    <a href="{% url 'editar_detalle_compra' detalle.pk %}" class="btn btn-sm btn-primary">Editar</a>
+                    <a href="{% url 'eliminar_detalle_compra' detalle.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay detalles de compra disponibles.</p>
+    {% endif %}
+
+    {% if compra %}
+    <a href="{% url 'crear_detalle_compra' compra.id %}" class="btn btn-primary">Agregar Detalle</a>
+    {% else %}
+    <p>Seleccione una compra para agregar detalles.</p>
+    {% endif %}
+
+    <a href="{% url 'lista_compras' %}" class="btn btn-secondary">Volver a la Lista de Compras</a>
+</div>
+
+{% block extra_js %}
+<script>
+    function Detalles_Compra() {
+        window.print();
+    }
+</script>
+</div>
+{% endblock %}
+
+{% endblock %}
